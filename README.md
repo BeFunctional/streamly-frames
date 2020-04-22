@@ -1,7 +1,7 @@
 # streamly-frames
 
-[![GitHub CI](https://github.com/befunctional.io/streamly-frames/workflows/CI/badge.svg)](https://github.com/befunctional.io/streamly-frames/actions)
-[![Build status](https://img.shields.io/travis/befunctional.io/streamly-frames.svg?logo=travis)](https://travis-ci.org/befunctional.io/streamly-frames)
+[![GitHub CI](https://github.com/BeFunctional/streamly-frames/workflows/CI/badge.svg)](https://github.com/BeFunctional/streamly-frames/actions)
+[![Build status](https://img.shields.io/travis/BeFunctional/streamly-frames.svg?logo=travis)](https://travis-ci.org/BeFunctional/streamly-frames)
 <!-- [![Hackage](https://img.shields.io/hackage/v/streamly-frames.svg?logo=haskell)](https://hackage.haskell.org/package/streamly-frames)
 [![Stackage Lts](http://stackage.org/package/streamly-frames/badge/lts)](http://stackage.org/lts/package/streamly-frames)
 [![Stackage Nightly](http://stackage.org/package/streamly-frames/badge/nightly)](http://stackage.org/nightly/package/streamly-frames) -->
