@@ -1,10 +1,10 @@
 cabal-version:       2.4
-name:                streamly-vinyl
-version:             0.0.0.0
+name:                streamly-frames
+version:             0.1.0.0
 synopsis:            utilities for dealing with vinyl records within streamly streams
 description:         utilities for dealing with vinyl records within streamly streams
-homepage:            https://github.com/befunctional.io/streamly-vinyl
-bug-reports:         https://github.com/befunctional.io/streamly-vinyl/issues
+homepage:            https://github.com/befunctional.io/streamly-frames
+bug-reports:         https://github.com/befunctional.io/streamly-frames/issues
 license:             MIT
 license-file:        LICENSE
 author:              o1lo01ol1o
@@ -15,20 +15,22 @@ build-type:          Simple
 extra-doc-files:     README.md
                      CHANGELOG.md
 tested-with:         GHC == 8.6.5
-                     GHC == 8.8.3
 
 source-repository head
   type:                git
-  location:            https://github.com/befunctional.io/streamly-vinyl.git
+  location:            https://github.com/befunctional.io/streamly-frames.git
 
 common common-options
-  build-depends:       base >= 4.12.0.0 && < 4.14
+  build-depends:       base >= 4.11.0.0 && < 4.14
   
   ghc-options:         -Wall
                        -Wcompat
                        -Widentities
                        -Wincomplete-uni-patterns
                        -Wincomplete-record-updates
+                       -fdicts-strict
+                       -fspec-constr-recursive=16
+                       -fmax-worker-args=16
   if impl(ghc >= 8.0)
     ghc-options:       -Wredundant-constraints
   if impl(ghc >= 8.2)
@@ -44,34 +46,45 @@ common common-options
 library
   import:              common-options
   hs-source-dirs:      src
-  exposed-modules:     StreamlyVinyl
+  exposed-modules:     Streamly.Vinyl
+                      , Streamly.Frames
+                      , Streamly.Vinyl.Interpolate
+                      , Streamly.Vinyl.LagLead
+                      , Streamly.Vinyl.PathSignature
+  build-depends:      exceptions
+                      , Frames >= 0.6.1
+                      , lens 
+                      , monad-control
+                      , monoidal-containers
+                      , serialise
+                      , streamly >= 0.7.1 
+                      , strict-base-types
+                      , strict-tuple
+                      , text
+                      , vector
+                      , vinyl
 
-executable streamly-vinyl
-  import:              common-options
-  hs-source-dirs:      app
-  main-is:             Main.hs
-  build-depends:       streamly-vinyl
-  ghc-options:         -threaded
-                       -rtsopts
-                       -with-rtsopts=-N
-
-test-suite streamly-vinyl-test
+test-suite streamly-frames-test
   import:              common-options
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
-  build-depends:       streamly-vinyl
+  build-depends:       streamly-frames
+                      , tasty
+                      , tasty-quickcheck
+                      , QuickCheck
   ghc-options:         -threaded
                        -rtsopts
                        -with-rtsopts=-N
 
-benchmark streamly-vinyl-benchmark
+benchmark streamly-frames-benchmark
   import:              common-options
   type:                exitcode-stdio-1.0
   hs-source-dirs:      benchmark
   main-is:             Main.hs
   build-depends:       gauge
-                     , streamly-vinyl
+                     , streamly-frames
   ghc-options:         -threaded
                        -rtsopts
+                       -O2
                        -with-rtsopts=-N

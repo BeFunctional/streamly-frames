@@ -1,1 +1,9 @@
-resolver: lts-15.5
+resolver: lts-14.27
+
+extra-deps:
+  - Frames-0.6.2@sha256:bb5d8dbea84184f1c26d9eb2a4cb8caeb5910eba2d2b787096de9d829c9a0457,8795
+  - streamly-0.7.1@sha256:a607999630c605cf4fd0e24354eb7b324c8edf6de4f14873106ffadb7bb5daf7,37484
+  - discrimination-0.4@sha256:d42ae36c97ea9c0c8844b47ee162c5530f3daf708636f01010f58dcf52602876,2571
+  - fusion-plugin-types-0.1.0@sha256:0f11bbc445ab8ae3dbbb3d5d2ea198bdb1ac020518b7f4f7579035dc89182438,1506
+  - strict-tuple-0.1.3@sha256:9cbd84bc249bbf16cf1c21ee1ea40108e1d01273c76d309c5b4f3ab14c0e4a5e,1128
+  - strict-base-0.4.0.0@sha256:2ff4e43cb95eedf2995558d7fc34d19362846413dd39e6aa6a5b3ea8228fef9f,1248
