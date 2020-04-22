@@ -33,10 +33,10 @@ type State a b v = Either (StateStep a b v) (StateResult a b v)
 
 -- | Interpolate missing values in a stream linearly
 --
--- >> import Data.Maybe ( fromMaybe, catMaybes )
--- >> let tmp = [Nothing, Nothing, Just 3, Nothing, Nothing, Just 9, Nothing, Nothing]
--- >> fmap catMaybes . S.toList $ interpolateLinear (fromMaybe 0) id (\_ v -> Just v) (S.fromList tmp)
--- [0.0,0.0,3.0,5.0,7.0,9.0,9.0,9.0]
+-- >>> import Data.Maybe ( fromMaybe, catMaybes )
+-- >>> let interpolateMe = [Nothing, Nothing, Just 3, Nothing, Nothing, Just 9, Nothing, Nothing]
+-- >>> fmap catMaybes . S.toList $ interpolateLinear (fromMaybe 0) id (\_ v -> Just v) (S.fromList interpolateMe)
+-- [0.0,1.5,3.0,5.0,7.0,9.0,9.0,9.0]
 --
 interpolateLinear
     :: ( IsStream s
@@ -52,8 +52,8 @@ interpolateLinear
     -> s m v
 interpolateLinear = interpolateWith linearInterpolation
 
--- | Interpolate some missing values given an `InterpolationFunction a`, a function providing values for any
--- missing values preceeding the first missing value, a function that "gets" the value to be obtained
+-- | Interpolate some missing values given an `InterpolationFunction a`, a function providing values for
+-- the first missing value preceeding the first value (if it exists), a function that "gets" the value to be obtained
 -- a function that "puts" the value.
 --
 interpolateWith
@@ -126,11 +126,15 @@ interpolate'
     -> Maybe a
     -> State a Int v
 interpolate' _ f put (Left (T2 Nothing _)) Nothing =
-    Right (T2 Nothing [put $ f Nothing]) -- recieved no values yet
+    Right (T2 (Just (val,0)) [put val]) -- recieved no values yet
+    where 
+        val = f Nothing 
 interpolate' interpFn f put (Right _) r@(Just _) =
     interpolate' interpFn f put init' r -- if we get a right, start over. note: must only issue right when the next item is just
 interpolate' _ f put (Right (T2 Nothing _)) Nothing =
-    Right (T2 Nothing [put $ f Nothing]) -- recieved no values yet
+    Right (T2 (Just (val,0)) [put val]) -- recieved no values yet
+    where 
+        val = f Nothing 
 interpolate' interpFn _ put (Right (T2 (Just (sv, sp)) _)) Nothing =
     Left (T2 (Just (sv, sp + 1)) [(\i a -> put $ interpFn sv (sp + 1) i a)])
 interpolate' _ _ put (Left (T2 Nothing _)) (Just r) =
